@@ -2,6 +2,7 @@
 #define FRACTALCREATOR_H_
 
 #include <string>
+#include <vector>
 
 #include "Bitmap.h"
 #include "Mandelbrot.h"
@@ -20,10 +21,21 @@ namespace fractal {
       Bitmap m_bitmap;
       ZoomList m_zoomList;
 
+      std::vector<int> m_ranges;
+      std::vector<RGB> m_colors;
+
+      std::vector<int> m_totalRanges;
+
+      bool m_gotFirstRange{false};
+
+      void insertColorRangeIfNeeded(double rangeEnd, const RGB& rgb);
+
+      void calculateRangeTotals();
       void calculateIteration();
       void calculateTotalIterations();
       void drawFractal();
       void writeBitmap(std::string filename);
+      int getRange(int iterations) const;
 
     public:
       FractalCreator(int width, int height);
@@ -31,6 +43,7 @@ namespace fractal {
 
       void addZoom(const Zoom& zoom);
       void run(std::string name);
+      void addColoRange(double rangeEnd, const RGB& rgb);
 
   };
 }
